@@ -1,0 +1,50 @@
+Things to keep, for the most part:
+* hook system
+* module extensibility
+* form API
+* drush style management
+* entity/field idea (anything and everything can be a first-class citizen, and reference each other)
+* user and access management
+
+Things to improve:
+* everything use .php extension (no more webserver "blocking" having to happen)
+* file API
+* cron access
+* "Content Type" -> "Entity" management
+
+Things to reduce:
+* decrease file i/o
+** less includes
+** less file scanning "magic" - heavy caching
+* build-in modules - slimmer micro-kernel
+
+Things to remove:
+* all objects (especially when it is only attributes)
+** bad: ->
+** bad: ::
+* all OO
+* PDO - remove PDO, but keep the idea of generic data access
+
+Standards:
+* no PHP 5.3 specific code
+** no namespaces
+** no "short array" syntax
+* no OO code
+* whitelist of "allowed" PHP functions
+
+Focus on the priorities and desires:
+* media/asset handling
+* mobile support
+** including supporting themes w/ responsive design
+** making publishing via mobile easier - web services and APIs can help
+* WYSIWYG editor
+** many options; should limit options
+** syntax highlighting is broken in many setups
+* better APIs
+* content import/export
+* native HTML5/CSS3
+* content staging
+* configuration management
+* usability
+* web services
+** fix services to use CRUD properly, and not require PUT/DELETE
