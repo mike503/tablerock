@@ -1,23 +1,55 @@
+What?
+This is a "hollow out" approach style fork of Drupal 7.8.
+
+- Many functions will be lifted up as-is, and re-examined for more streamlining.
+- Many constants will be removed.
+- Many core modules will be removed.
+- A decent amount of the core concepts in Drupal will be maintained, as they are "best of breed" I believe.
+
+Why?
+- The mix of arrays and objects is messy.
+- The introduction of more OO code, and PHP 5.3 requirements on some contrib modules is starting to fragment the supportability and consistency throughout the project.
+- I think a few things can be done cleaner, and better. Also, it's a hobby. :)
+
 Things to keep, for the most part:
 - hook system
-- module extensibility
 - form API
 - drush style management
 - entity/field idea (anything and everything can be a first-class citizen, and reference each other)
+	- field, field_ui, but also node (node would be merged into generic "entity" type nomenclature)
 - user and access management
+	- may get confusing if users are managed as entities instead. perhaps userid -> entity reference is all it stores
 - CSS/JS aggregation/compression
+- menu router configuration
+- pathing
+	- pathauto, for sure
+- views
+- filters (input and output), text formats
+- taxonomy
+- logging
+	- watchdog/dblog can be expensive and difficult to follow
 
 Things to improve:
 - everything should use .php extension (no more webserver "blocking" having to be done)
 - file API
 - cron access
-- "Content Type" -> "Entity" management
+- "Content Type" management should be "Entity" management
+- Comments and Users will be managed as entities
+	- comment should be removed from core
+- multi-site; currently is too flexible, probably too much overhead
+- module code living inside of the web root; ideally, it could live outside, with menu router items established
+	- javascript/css would be applied using the drupal_add_css() style approach, and using special scheme:// file URI
+- profiles and distributions
+- update
+	- make it work as well as a drush update works
+- rename functions like check_plain() and such to be more descriptive
 
 Things to reduce:
 - decrease file i/o
 	- less includes
 	- less file scanning "magic" - heavy caching
 - build-in modules - slimmer micro-kernel
+- memory usage can grow large with a Drupal install; examine various ways to decrease memory usage, and CPU spikes
 
 Things to remove:
 - all objects (especially when it is only attributes)
@@ -25,6 +57,10 @@ Things to remove:
 	- bad: ::
 - all OO
 - PDO - remove PDO, but keep the idea of generic data access
+	- generic data access may be a v2 thing. might need to get back to basics first
+- built-in "core" modules: aggregator, blog, book, color, comment, contact, forum, openid, overlay, poll, profile, shortcut, statistics, tracker, translation, trigger
+	- some of these belong in "beefier" contributed modules
+	- the "core" should be lightweight and expose only the most optimized set of APIs, hooks, and functionality to extend upon
 
 Standards:
 - no PHP 5.3 specific code
@@ -49,3 +85,12 @@ Focus on the priorities and desires:
 - usability
 - web services
 	- fix services to use CRUD properly, and not require PUT/DELETE
+
+Things to ensure are in place:
+- testing framework
+- internationalization
+	- translation
+	- localization
+- pluggable authentication
+	- authmap isn't very well documented. perhaps something better or easier to understand can be implemented
+- module extensibility
